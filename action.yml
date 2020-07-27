@@ -1,0 +1,14 @@
+name: 'Setup Defold bob.jar'
+description: 'Sets up a specific version of bob.jar and dmengine_headless and adds them to PATH'
+inputs:
+  sha1:
+    description: 'Engine hash or release channel ("stable", "beta", "alpha")'
+    required: false
+    default: 'stable'
+  path:
+    description: 'Path where to download the files'
+    required: false
+    default: '.defold'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
