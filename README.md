@@ -24,6 +24,6 @@ The path where to download the files. This will be added to `PATH`. Defaults to 
   with:
     sha1: '29b8e598b0bce19b274327c5d9711f78b3bd0c22'
 - run: 'java -jar .defold/bob.jar --auth "foobar" --email "john@doe.com" resolve'
-- run: 'java -jar .defold/bob.jar --debug build'
+- run: 'java -jar .defold/bob.jar --variant debug build'
 - run: 'dmengine_headless'
 ```
