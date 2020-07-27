@@ -840,24 +840,28 @@ const getPlatform = () => {
 }
 
 (async () => {
+    let version
     let sha1 = actions.getInput('sha1')
     let platform = getPlatform()
 
     if (!sha1 || sha1.length != 40) {
         const info = await got(`http://d.defold.com/${sha1 || 'stable'}/info.json`).json()
         sha1 = info.sha1
+        version = info.version
     }
 
     const dir = actions.getInput('dir') || '.defold'
     await fs.promises.mkdir(dir, { recursive: true })
 
-    console.log(`Downloading dmengine_headless ${sha1} for ${platform}...`)
+    const displayVersion = version ? ` (${version})` : ''
+
+    console.log(`Downloading dmengine_headless ${sha1}${displayVersion} for ${platform}...`)
     await pipeline(
         got.stream(`http://d.defold.com/archive/${sha1}/engine/${platform}/dmengine_headless`),
         fs.createWriteStream(path.join(dir, 'dmengine_headless'), { mode: 0o777 })
     )
 
-    console.log(`Downloading bob.jar ${sha1}...`)
+    console.log(`Downloading bob.jar ${sha1}${displayVersion}...`)
     await pipeline(
         got.stream(`http://d.defold.com/archive/${sha1}/bob/bob.jar`),
         fs.createWriteStream(path.join(dir, 'bob.jar'), { mode: 0o777 })
