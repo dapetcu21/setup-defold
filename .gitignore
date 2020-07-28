@@ -10,6 +10,7 @@
 
 # production
 /build
+.defold
 
 # misc
 .DS_Store
