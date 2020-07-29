@@ -9,6 +9,17 @@ inputs:
     description: 'Path where to download the files'
     required: false
     default: '.defold'
+outputs:
+  sha1:
+    description: 'Resolved engine hash'
+  version:
+    description: 'Resolved engine version'
+  path:
+    description: 'Absolute path to the downloaded files'
+  bob:
+    description: 'Absolute path to bob.jar'
+  dmengine:
+    description: 'Absolute path to dmengine_headless'
 runs:
   using: 'node12'
   main: 'dist/index.js'
