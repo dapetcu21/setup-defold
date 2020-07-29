@@ -14,11 +14,13 @@ jobs:
       with:
         java-version: '11'
     - env:
-        BOB_VERSION: ${{ steps.setup_defold.version }}
-        BOB_SHA1: ${{ steps.setup_defold.sha1 }}
-        DEFOLD_PATH: ${{ steps.setup_defold.path }}
+        BOB_VERSION: ${{ steps.setup_defold.outputs.version }}
+        BOB_SHA1: ${{ steps.setup_defold.outputs.sha1 }}
+        DEFOLD_PATH: ${{ steps.setup_defold.outputs.path }}
       run: >
         echo $BOB_VERSION $BOB_SHA1 > versions
         cat versions
-        java -jar $BOB --version | sed 's/.*version: \([^ ]*\).*sha1: \([^ ]*\).*/\1 \2/' | cmp - versions && 
+        echo "Bob installed in: $BOB"
+        java -jar $BOB --version | tee bob_versions &&
+        cat bob_versions | sed 's/.*version: \([^ ]*\).*sha1: \([^ ]*\).*/\1 \2/' | cmp - versions && 
         test -x "$DEFOLD_PATH/dmengine_headless"
