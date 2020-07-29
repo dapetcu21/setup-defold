@@ -17,10 +17,10 @@ jobs:
         BOB_VERSION: ${{ steps.setup_defold.outputs.version }}
         BOB_SHA1: ${{ steps.setup_defold.outputs.sha1 }}
         DEFOLD_PATH: ${{ steps.setup_defold.outputs.path }}
-      run: >
+      run: |
         echo $BOB_VERSION $BOB_SHA1 > versions
         cat versions
         echo "Bob installed in: $BOB"
-        java -jar $BOB --version | tee bob_versions &&
-        cat bob_versions | sed 's/.*version: \([^ ]*\).*sha1: \([^ ]*\).*/\1 \2/' | cmp - versions && 
+        java -jar $BOB --version | tee bob_versions && \
+        cat bob_versions | sed 's/.*version: \([^ ]*\).*sha1: \([^ ]*\).*/\1 \2/' | cmp - versions && \
         test -x "$DEFOLD_PATH/dmengine_headless"
