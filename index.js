@@ -48,10 +48,12 @@ const getPlatform = () => {
     )
 
     console.log(`Downloading bob.jar ${sha1}${displayVersion}...`)
+    const bobPath = path.join(dir, 'bob.jar')
     await pipeline(
         got.stream(`http://d.defold.com/archive/${sha1}/bob/bob.jar`),
-        fs.createWriteStream(path.join(dir, 'bob.jar'), { mode: 0o777 })
+        fs.createWriteStream(bobPath, { mode: 0o777 })
     )
 
+    actions.exportVariable('BOB', bobPath)
     actions.addPath(dir)
 })().catch(console.error)
