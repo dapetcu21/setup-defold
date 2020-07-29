@@ -1,0 +1,24 @@
+name: Test
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: '.'
+      id: setup_defold
+      with:
+        path: .defold2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+    - env:
+        BOB_VERSION: ${{ steps.setup_defold.version }}
+        BOB_SHA1: ${{ steps.setup_defold.sha1 }}
+        DEFOLD_PATH: ${{ steps.setup_defold.path }}
+      run: >
+        echo $BOB_VERSION $BOB_SHA1 > versions
+        cat versions
+        java -jar $BOB --version | sed 's/.*version: \([^ ]*\).*sha1: \([^ ]*\).*/\1 \2/' | cmp - versions && 
+        test -x "$DEFOLD_PATH/dmengine_headless"
