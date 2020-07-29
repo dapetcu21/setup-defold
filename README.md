@@ -16,6 +16,30 @@ Defaults to `stable`.
 
 The path where to download the files. This will be added to `PATH`. Defaults to `.defold`. 
 
+## Outputs
+
+### `sha1`
+
+The engine hash we ended up downloading, or `inputs.sha1` if a full hash was specified.
+
+### `version`
+
+The engine version we ended up downloading. This will be empty if `inputs.sha1` 
+was specified as a full hash.
+
+### `path`
+
+The absolute path where the files were downloaded.
+
+### `bob`
+
+The absolute path to `bob.jar`. This will also be available as the `BOB` 
+environment variable.
+
+### `dmengine`
+
+The absolute path to `dmengine_headless`.
+
 ## Example usage
 
 ```yml
