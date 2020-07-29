@@ -850,24 +850,32 @@ const getPlatform = () => {
         version = info.version
     }
 
-    const dir = actions.getInput('dir') || '.defold'
+    const dir = path.resolve(actions.getInput('dir') || '.defold')
     await fs.promises.mkdir(dir, { recursive: true })
 
     const displayVersion = version ? ` (${version})` : ''
 
     console.log(`Downloading dmengine_headless ${sha1}${displayVersion} for ${platform}...`)
+    const dmenginePath = path.join(dir, 'dmengine_headless')
     await pipeline(
         got.stream(`http://d.defold.com/archive/${sha1}/engine/${platform}/dmengine_headless`),
-        fs.createWriteStream(path.join(dir, 'dmengine_headless'), { mode: 0o777 })
+        fs.createWriteStream(dmenginePath, { mode: 0o777 })
     )
 
     console.log(`Downloading bob.jar ${sha1}${displayVersion}...`)
+    const bobPath = path.join(dir, 'bob.jar')
     await pipeline(
         got.stream(`http://d.defold.com/archive/${sha1}/bob/bob.jar`),
-        fs.createWriteStream(path.join(dir, 'bob.jar'), { mode: 0o777 })
+        fs.createWriteStream(bobPath, { mode: 0o777 })
     )
 
+    actions.exportVariable('BOB', bobPath)
     actions.addPath(dir)
+    actions.setOutput('sha1', sha1)
+    actions.setOutput('version', version)
+    actions.setOutput('path', dir)
+    actions.setOutput('bob', bobPath)
+    actions.setOutput('dmengine', dmenginePath)
 })().catch(console.error)
 
 
