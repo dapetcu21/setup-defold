@@ -36,7 +36,7 @@ const getPlatform = () => {
         version = info.version
     }
 
-    const dir = actions.getInput('dir') || '.defold'
+    const dir = path.resolve(actions.getInput('dir') || '.defold')
     await fs.promises.mkdir(dir, { recursive: true })
 
     const displayVersion = version ? ` (${version})` : ''
