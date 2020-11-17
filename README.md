@@ -46,7 +46,7 @@ The absolute path to `dmengine_headless`.
 - uses: actions/setup-java@v1
   with:
     java-version: '11'
-- uses: dapetcu21/setup-defold@v1
+- uses: dapetcu21/setup-defold@v3
   with:
     sha1: '29b8e598b0bce19b274327c5d9711f78b3bd0c22'
 - run: 'java -jar $BOB --auth "foobar" --email "john@doe.com" resolve'
