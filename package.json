@@ -1,6 +1,6 @@
 {
   "name": "setup-defold",
-  "version": "1.0.0",
+  "version": "3.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "got": "^11.5.1"
+    "got": "^11.8.1"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3"
