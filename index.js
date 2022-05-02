@@ -4,7 +4,7 @@ const path = require('path')
 const { promisify } = require('util')
 const fs = require('fs')
 const stream = require('stream')
- 
+
 const pipeline = promisify(stream.pipeline);
 
 const archs = {
@@ -62,4 +62,7 @@ const getPlatform = () => {
     actions.setOutput('path', dir)
     actions.setOutput('bob', bobPath)
     actions.setOutput('dmengine', dmenginePath)
-})().catch(console.error)
+})().catch((...args) => {
+  console.error(...args);
+  process.exit(-1);
+})
