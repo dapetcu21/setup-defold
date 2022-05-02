@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "got": "^11.8.1"
+    "@actions/core": "^1.7.0",
+    "got": "^12.0.4"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3"
