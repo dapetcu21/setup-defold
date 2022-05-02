@@ -2,11 +2,10 @@
   "name": "setup-defold",
   "version": "3.0.3",
   "description": "",
-  "exports": "./index.js",
-  "type": "module",
+  "main": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "ncc build index.js"
+    "build": "ncc build"
   },
   "keywords": [],
   "author": "",

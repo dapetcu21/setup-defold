@@ -42,8 +42,6 @@ module.exports =
 /******/ 		// Load entry module and return exports
 /******/ 		return __webpack_require__(104);
 /******/ 	};
-/******/ 	// initialize runtime
-/******/ 	runtime(__webpack_require__);
 /******/
 /******/ 	// run startup
 /******/ 	return startup();
@@ -917,30 +915,16 @@ exports.issueCommand = issueCommand;
 /***/ }),
 
 /***/ 104:
-/***/ (function(__unusedmodule, __webpack_exports__, __webpack_require__) {
+/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(470);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var got__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(77);
-/* harmony import */ var got__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(got__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(622);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(669);
-/* harmony import */ var util__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(util__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(747);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var stream__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(794);
-/* harmony import */ var stream__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(stream__WEBPACK_IMPORTED_MODULE_5__);
+const actions = __webpack_require__(470)
+const got = __webpack_require__(77)
+const path = __webpack_require__(622)
+const { promisify } = __webpack_require__(669)
+const fs = __webpack_require__(747)
+const stream = __webpack_require__(794)
 
-
-
-
-
-
-
-const pipeline = Object(util__WEBPACK_IMPORTED_MODULE_3__.promisify)(stream__WEBPACK_IMPORTED_MODULE_5___default.a.pipeline);
+const pipeline = promisify(stream.pipeline);
 
 const archs = {
     ia32: 'x86',
@@ -962,41 +946,41 @@ const getPlatform = () => {
 
 (async () => {
     let version
-    let sha1 = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('sha1')
+    let sha1 = actions.getInput('sha1')
     let platform = getPlatform()
 
     if (!sha1 || sha1.length != 40) {
-        const info = await got__WEBPACK_IMPORTED_MODULE_1___default()(`http://d.defold.com/${sha1 || 'stable'}/info.json`).json()
+        const info = await got(`http://d.defold.com/${sha1 || 'stable'}/info.json`).json()
         sha1 = info.sha1
         version = info.version
     }
 
-    const dir = path__WEBPACK_IMPORTED_MODULE_2___default().resolve(_actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('dir') || '.defold')
-    await fs__WEBPACK_IMPORTED_MODULE_4___default().promises.mkdir(dir, { recursive: true })
+    const dir = path.resolve(actions.getInput('dir') || '.defold')
+    await fs.promises.mkdir(dir, { recursive: true })
 
     const displayVersion = version ? ` (${version})` : ''
 
     console.log(`Downloading dmengine_headless ${sha1}${displayVersion} for ${platform}...`)
-    const dmenginePath = path__WEBPACK_IMPORTED_MODULE_2___default().join(dir, 'dmengine_headless')
+    const dmenginePath = path.join(dir, 'dmengine_headless')
     await pipeline(
-        got__WEBPACK_IMPORTED_MODULE_1___default().stream(`http://d.defold.com/archive/${sha1}/engine/${platform}/dmengine_headless`),
-        fs__WEBPACK_IMPORTED_MODULE_4___default().createWriteStream(dmenginePath, { mode: 0o777 })
+        got.stream(`http://d.defold.com/archive/${sha1}/engine/${platform}/dmengine_headless`),
+        fs.createWriteStream(dmenginePath, { mode: 0o777 })
     )
 
     console.log(`Downloading bob.jar ${sha1}${displayVersion}...`)
-    const bobPath = path__WEBPACK_IMPORTED_MODULE_2___default().join(dir, 'bob.jar')
+    const bobPath = path.join(dir, 'bob.jar')
     await pipeline(
-        got__WEBPACK_IMPORTED_MODULE_1___default().stream(`http://d.defold.com/archive/${sha1}/bob/bob.jar`),
-        fs__WEBPACK_IMPORTED_MODULE_4___default().createWriteStream(bobPath, { mode: 0o777 })
+        got.stream(`http://d.defold.com/archive/${sha1}/bob/bob.jar`),
+        fs.createWriteStream(bobPath, { mode: 0o777 })
     )
 
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().exportVariable('BOB', bobPath)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().addPath(dir)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('sha1', sha1)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('version', version)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('path', dir)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('bob', bobPath)
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setOutput('dmengine', dmenginePath)
+    actions.exportVariable('BOB', bobPath)
+    actions.addPath(dir)
+    actions.setOutput('sha1', sha1)
+    actions.setOutput('version', version)
+    actions.setOutput('path', dir)
+    actions.setOutput('bob', bobPath)
+    actions.setOutput('dmengine', dmenginePath)
 })().catch((...args) => {
   console.error(...args);
   process.exit(-1);
@@ -10085,43 +10069,4 @@ exports.default = normalizeArguments;
 
 /***/ })
 
-/******/ },
-/******/ function(__webpack_require__) { // webpackRuntimeModules
-/******/ 	"use strict";
-/******/ 
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	!function() {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = function(module) {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				function getDefault() { return module['default']; } :
-/******/ 				function getModuleExports() { return module; };
-/******/ 			__webpack_require__.d(getter, 'a', getter);
-/******/ 			return getter;
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getter */
-/******/ 	!function() {
-/******/ 		// define getter function for harmony exports
-/******/ 		var hasOwnProperty = Object.prototype.hasOwnProperty;
-/******/ 		__webpack_require__.d = function(exports, name, getter) {
-/******/ 			if(!hasOwnProperty.call(exports, name)) {
-/******/ 				Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 			}
-/******/ 		};
-/******/ 	}();
-/******/ 	
-/******/ }
-);
+/******/ });
