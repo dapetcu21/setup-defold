@@ -1,9 +1,9 @@
-const actions = require('@actions/core')
-const got = require('got')
-const path = require('path')
-const { promisify } = require('util')
-const fs = require('fs')
-const stream = require('stream')
+import actions from '@actions/core';
+import got from 'got';
+import path from 'path';
+import { promisify } from 'util';
+import fs from 'fs';
+import stream from 'stream';
 
 const pipeline = promisify(stream.pipeline);
 
