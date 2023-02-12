@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.7.0",
-    "got": "^11.8.3"
+    "got": "^12.5.3"
   },
   "devDependencies": {
     "@zeit/ncc": "^0.22.3"
